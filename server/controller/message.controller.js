@@ -26,7 +26,7 @@ const MessageController = {
             service: 'gmail',
             auth: {
                 user: 'hasanlimahir1@gmail.com', // Sizin Gmail adresiniz
-                pass: 'Mahir711$$', // Yaratdığınız App Password
+                pass: 'zvbi wzty iuwx qzqq', // Yaratdığınız App Password
             },
         });
 
