@@ -9,47 +9,58 @@ const MessageController = {
     },
     Post: async (req, res) => {
 
+        const userEmail = req.body.email;
+        const userMessage = req.body.message;
+        const userName = req.body.name;
+        const userSurName = req.body.surname;
+
         const NewObj = new MyMessageModel({
-            name: req.body.name,
-            surname: req.body.surname,
-            email: req.body.email,
-            message: req.body.message
+            name: userName,
+            surname: userSurName,
+            email: userEmail,
+            message: userMessage
         });
-        const newObj = await NewObj.save();
-        res.status(200).send(newObj);
-
-
+        // const newObj = await NewObj.save();
+        // res.status(200).send(newObj);
 
         // Transporter yaradın
         const transporter = nodemailer.createTransport({
             service: 'gmail',
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
             auth: {
                 user: 'hasanlimahir1@gmail.com', // Sizin Gmail adresiniz
-                pass: 'zvbi wzty iuwx qzqq', // Yaratdığınız App Password
+                pass: 'zvbiwztyiuwxqzqq', // Yaratdığınız App Password
             },
         });
 
         // Email göndərmə funksiyası
-        const sendEmail = (emailFrom, subject, message) => {
-            const mailOptions = {
-                from: emailFrom, // Göndərən adres
-                to: 'hasanlimahir1@gmail.com',  // Göndəriləcək email
-                subject: subject, // Emailin mövzusu
-                text: message,  // Emailin mətni
-            };
-
-            // Emaili göndərmək
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    console.log('Xəta baş verdi:', error);
-                } else {
-                    console.log('Email uğurla göndərildi: ' + info.response);
-                }
-            });
+        const mailMessage = {
+            from: {
+                name: `${userName} ${userSurName}`,
+                address: userEmail
+            }, // Göndərən adresi istifadəçinin emaili
+            to: "hasanlimahir1@gmail.com",
+            subject: "Message from the Portfolio website.",
+            html: `
+            <div>
+            <div><b>Name:</b>  ${userName}</div>
+            <div><b>Surname:</b>  ${userSurName}</div>
+            <div><b>Gmail:</b> ${userEmail}</div>
+            <hr style="margin:12px 0;"/>
+            <div>${userMessage}</div>
+            </div>`
         };
 
-        // Funksiyani Ise salir
-        sendEmail(req.body.email, 'IT', req.body.message);
+        // Emaili göndərmək
+        transporter.sendMail(mailMessage, (error, info) => {
+            if (error) {
+                console.log('Xəta baş verdi:', error);
+            } else {
+                console.log('Email uğurla göndərildi: ' + info.response);
+            }
+        });
     },
     Put: async (req, res) => {
         const newObj = {
