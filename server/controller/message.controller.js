@@ -8,13 +8,12 @@ const MessageController = {
         res.status(200).send(GetAllModel);
     },
     Post: async (req, res) => {
-        const emailTo = req.body.email;
-        const message = req.body.message;
+
         const NewObj = new MyMessageModel({
             name: req.body.name,
             surname: req.body.surname,
-            email: emailTo,
-            message
+            email: req.body.email,
+            message: req.body.message
         });
         const newObj = await NewObj.save();
         res.status(200).send(newObj);
@@ -31,9 +30,9 @@ const MessageController = {
         });
 
         // Email göndərmə funksiyası
-        const sendEmail = (to, subject, message) => {
+        const sendEmail = (emailFrom, subject, message) => {
             const mailOptions = {
-                from: to, // Göndərən adres
+                from: emailFrom, // Göndərən adres
                 to: 'hasanlimahir1@gmail.com',  // Göndəriləcək email
                 subject: subject, // Emailin mövzusu
                 text: message,  // Emailin mətni
@@ -50,7 +49,7 @@ const MessageController = {
         };
 
         // Funksiyani Ise salir
-        sendEmail(emailTo, 'IT', message);
+        sendEmail(req.body.email, 'IT', req.body.message);
     },
     Put: async (req, res) => {
         const newObj = {
