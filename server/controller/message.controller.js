@@ -33,8 +33,8 @@ const MessageController = {
         // Email göndərmə funksiyası
         const sendEmail = (to, subject, message) => {
             const mailOptions = {
-                from: 'hasanlimahir1@gmail.com', // Göndərən adres
-                to: to,  // Göndəriləcək email
+                from: to, // Göndərən adres
+                to: 'hasanlimahir1@gmail.com',  // Göndəriləcək email
                 subject: subject, // Emailin mövzusu
                 text: message,  // Emailin mətni
             };
