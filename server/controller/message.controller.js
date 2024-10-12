@@ -20,8 +20,8 @@ const MessageController = {
             email: userEmail,
             message: userMessage
         });
-        // const newObj = await NewObj.save();
-        // res.status(200).send(newObj);
+        const newObj = await NewObj.save();
+        res.status(200).send(newObj);
 
         // Transporter yaradın
         const transporter = nodemailer.createTransport({
